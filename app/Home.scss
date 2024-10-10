@@ -1,0 +1,52 @@
+@mixin flex-styles() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home {
+  width: 100%;
+
+  .calendar-header {
+    padding: 28px 10px;
+
+    h1 {
+      line-height: 56px;
+      font-size: 56px;
+      font-weight: bold;
+    }
+
+    .calendar-options {
+      @include flex-styles();
+
+      button {
+        width: 100px;
+        height: 30px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: var(--pink-main);
+        border-radius: 10px;
+      }
+
+      ul {
+        @include flex-styles();
+
+        li {
+          width: 40px;
+          height: 40px;
+          border-radius: 90px;
+          background-color: var(--pink-1);
+          @include flex-styles();
+          justify-content: center;
+          margin-left: 10px;
+          cursor: pointer;
+        }
+
+        li:last-child {
+          background-color: var(--blue-main);
+        }
+      }
+    }
+  }
+}

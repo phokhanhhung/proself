@@ -5,6 +5,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --pink-main: #FB6F92;
+  --pink-1: #FFB3C6;
+  
+  --blue-main: #00B4D8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,14 +19,22 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;;
+}
+
+.main {
+  display: flex;
 }
