@@ -1,0 +1,25 @@
+.daily-input {
+  &-header {
+    border-bottom: 1px #121212 solid;
+    padding: 30px 10px 10px;
+
+    h4 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  &-body {
+    .MuiInputBase-root.MuiInput-root::before {
+      border-bottom: unset;
+    }
+
+    .MuiInputBase-root.MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before {
+      border-bottom: unset;
+    }
+    
+    input:hover {
+      border: unset;
+    }
+  }
+}

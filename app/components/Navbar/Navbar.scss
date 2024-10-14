@@ -3,6 +3,9 @@
   height: 100vh;
   border-right: 1px #D2D2D7 solid;
   padding: 28px 10px;
+  position: fixed;
+  background-color: #ffffff;
+  z-index: 1000;
 
   ul {
     li {
@@ -18,6 +21,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-decoration: none;
+        color: #000000;
 
         p {
           margin-top: 10px;
