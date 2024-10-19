@@ -99,7 +99,8 @@ const TaskDetailDialog = (
   }
 
   const handleChooseColor = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, color: {name: string, color: string}) => {
-    const dialogHeader = document.getElementsByClassName(`dialog-header`)[0] as HTMLElement;
+    const dialogHeader = document.getElementsByClassName("dialog-header")[0] as HTMLElement;
+    const editor = document.getElementById("toolbar");
     dialogHeader.style.backgroundColor = color.color;
     const target = e.currentTarget as HTMLElement;
     setCurrentColor(color.name);
