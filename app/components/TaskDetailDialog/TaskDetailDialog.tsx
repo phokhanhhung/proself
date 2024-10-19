@@ -100,11 +100,11 @@ const TaskDetailDialog = (
 
   const handleChooseColor = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, color: {name: string, color: string}) => {
     const dialogHeader = document.getElementsByClassName("dialog-header")[0] as HTMLElement;
-    const editor = document.getElementById("toolbar");
+    const editor = document.getElementById("toolbar") as HTMLElement;
     dialogHeader.style.backgroundColor = color.color;
     const target = e.currentTarget as HTMLElement;
     setCurrentColor(color.name);
-    console.log("ngoai", target);
+    console.log("ngoai", target, "edit", editor);
     if(target && target.children.length > 0) {
       setCurrentColor("GRAY");
       dialogHeader.style.backgroundColor = TASK_HIGHLIGHT_COLOR["GRAY"];
