@@ -2,10 +2,16 @@
   --background: #ffffff;
   --foreground: #171717;
 
+  --black-main: #121212;
+
   --pink-main: #FB6F92;
   --pink-1: #FFB3C6;
   
   --blue-main: #00B4D8;
+
+  --gray-main: #D2D2D7;
+
+  --white-main: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,7 +34,7 @@
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .main {

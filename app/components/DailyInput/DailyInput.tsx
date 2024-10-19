@@ -1,13 +1,57 @@
-import "./DailyInput.scss";
+"use client"
 
-import { Dates } from '@/types/interfaces/calendar.interface';
+import "./DailyInput.scss";
+import { DailyTasks, Dates, TaskProps } from '@/types/interfaces/calendar.interface';
+import { dateToDay, getDaySuffix } from "@/utils/date-handle.util";
 import { Stack, TextField } from '@mui/material';
 import Image from 'next/image';
+import Task from "../Task/Task";
+import { isSameDate } from '../../../utils/date-handle.util';
+import TaskDetailDialog from "../TaskDetailDialog/TaskDetailDialog";
+import { useState } from "react";
 
-const DailyInput = ({dates}: {dates: Dates}) => {
+const defaultTask: TaskProps = {
+  taskName: "",
+  isImportant: false,
+  isDone: false,
+  highlight: "",
+  subTasks: "",
+};
+
+const dailyInputHeaderStyles = {
+  color: "#00B4D8",
+  borderBottom: "#00B4D8 solid 1px",
+  backgroundColor: "#CAF0F8",
+}
+
+const dailyInputHeaderIconStyles = {
+  backgroundColor: "#00B4D8",
+}
+
+const DailyInput = ({task, num}: {task: DailyTasks, num: number}) => {
+  const date = new Date(task.date);
+  const currentDate = new Date();
+
+  const isCurrentDay = isSameDate(currentDate, date);
+
+  const [isDialogOpened, setIsDialogOpened] = useState(false);
+  const [currentTask, setCurrentTask] = useState<TaskProps>(defaultTask);
+
+  const getBorderStyle = (index: number) => {
+    return task.listTasks.length % 2 === 0
+    ? index % 2 === 0
+      ? "1px solid #F5F5F7"
+      : "1px solid #D2D2D7"
+    : index % 2 === 0
+      ? "1px solid #D2D2D7"
+      : "1px solid #F5F5F7"
+
+  } 
+
   return (
     <div className="daily-input">
       <Stack
+        style={isCurrentDay ? dailyInputHeaderStyles : {}}
         className="daily-input-header"
         direction="row"
         sx={{
@@ -16,10 +60,10 @@ const DailyInput = ({dates}: {dates: Dates}) => {
         }}
       >
         <h4>
-          {dates.day} {dates.date}
+          {dateToDay(date)} {date.getDate()}{getDaySuffix(date.getDate())}
         </h4>
         
-        <Image src="/assets/icons/emotion.png" alt="emotion" width={20} height={20}/>
+        <Image src={`/assets/icons/${isCurrentDay ? 'blue-' : ''}emotion.svg`} alt="emotion" width={20} height={20}/>
       </Stack>
         
 
@@ -31,8 +75,25 @@ const DailyInput = ({dates}: {dates: Dates}) => {
           alignItems: "center",
         }}
       >
-        {Array.from({ length: 10 }, (_, i) => i + 1).map((_, i) => (
-          <TextField key={i} disabled id="standard-basic" variant="standard" style={{borderBottom: i%2===0 ? "1px solid #F5F5F7" : "1px solid #D2D2D7"}}/>
+        {task.listTasks.map((task, i) => (
+          <Task 
+            key={`${num}-${i}`} 
+            num={i} 
+            task={task} 
+            date={date}
+            borderStyle={i%2===0 ? "1px solid #F5F5F7" : "1px solid #D2D2D7"}
+            isEmptyTask={false}
+          />
+        ))}
+        {Array.from({ length: 10 - task.listTasks.length }, (_, i) => i + 1).map((_, i) => (
+          <Task 
+            key={`${num}-${i + task.listTasks.length}`} 
+            num={i}
+            date={date}
+            task={defaultTask} 
+            borderStyle={getBorderStyle(i)} 
+            isEmptyTask={true} 
+          />
         ))}
       </Stack>
     </div>

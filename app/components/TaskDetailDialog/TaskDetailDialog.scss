@@ -1,0 +1,204 @@
+.dialog-wrapper {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(66, 69, 69, 0.5);
+
+  .dialog {
+    position: relative;
+    width: 520px;
+    // height: 240px;
+    box-shadow: 0px 6px 6px 0 rgba(18, 18, 18, 0.25);
+    border-radius: 14px;
+
+    &-header {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--gray-main);
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      padding: 10px 0 10px 20px;
+      transition: all ease .5s;
+
+      &-calendar {
+        display: flex;
+        align-items: center;
+
+        p {
+          margin-left: 10px;
+        }
+
+        img {
+          cursor: pointer;
+        }
+      }
+
+      &-options {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        button {
+          border: none;
+          background-color: unset;
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+        }
+
+        button:hover {
+          border-bottom: solid 2px #424245;
+        }
+      }
+    }
+
+    &-body {
+      min-height: 200px;
+      max-height: 300px;
+      padding: 40px 20px 20px;
+      background-color: var(--white-main);
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+
+      &-input {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: #F5F5F7 solid 1px;
+        margin-bottom: 5px;
+
+        img {
+          cursor: pointer;
+        }
+
+        &-text {
+          padding: 14px 0;
+          width: 100%;
+
+          input {
+            font-family: 'Montserrat', sans-serif;
+          }
+        }
+      }
+
+      &-quill-editor {
+        padding-top: 8px;
+        
+        .quill > .ql-toolbar {
+          border: none;
+          padding: 0;
+
+          span {
+            padding: 0;
+          }
+        }
+
+        .quill > .ql-container {
+          border: none;
+          margin-top: 10px;
+          overflow-y: auto;
+          max-height: 130px;
+          min-height: 30px;
+
+          .ql-editor {
+            padding: 0;
+          }
+
+          .ql-editor.ql-blank::before {
+            left: 0;
+            right: 0;
+            color: #808080;
+            font-style: normal;
+            font-size: 14px;
+          }
+        } 
+      }
+    }
+
+    .dialog-others-wrapper {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 520px;
+      height: -webkit-fill-available;
+      background-color: rgba(66, 69, 69, 0.25);
+      border-bottom-right-radius: 14px;
+      border-bottom-left-radius: 14px;
+
+      .dialog-others {
+        position: absolute;
+        top: -10px;
+        right: 0;
+        background-color: var(--white-main);
+        width: 200px;
+        border-top-right-radius: 14px;
+        box-shadow: 0px 6px 6px 0 rgba(0, 0, 0, 0.25);
+
+        .color-pickup {
+          list-style-type: none;
+          display: flex;
+          align-items: center;
+
+          li {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          li:last-child {
+            border-top-right-radius: 14px;
+          }
+
+          li:hover {
+            border: 1px solid var(--white-main);
+          }
+        }
+
+        &-option {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 20px;
+          cursor: pointer;
+        }
+
+        &-option:hover {
+          background-color: var(--gray-main);
+        }
+      }
+    }
+  }
+}
+
+.open-dialog {
+  display: flex !important;
+  transition: all ease .5s;
+}
+
+.open-others-dialog {
+  display: block !important;
+  transition: all ease .5s;
+}
+
+.close-dialog-header {
+  display: none !important;
+  transition: all ease .5s;
+}
+
+.shorten-header {
+  height: 10px !important;
+  padding: 0 !important;
+  transition: all ease .5s;
+}

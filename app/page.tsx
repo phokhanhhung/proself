@@ -2,16 +2,26 @@
 import { useEffect, useState } from 'react';
 import './Home.scss';
 import Image from 'next/image';
-import { MONTH, WEEK } from '../types/consts/calendar.const';
+import { MONTH, WEEK, MONTHS } from '../types/consts/calendar.const';
 import DailyInput from './components/DailyInput/DailyInput';
-import { Dates } from '@/types/interfaces/calendar.interface';
+import { DailyTasks, Dates } from '@/types/interfaces/calendar.interface';
 import { Stack, TextField } from '@mui/material';
 import Calendar from './components/Calendar/Calendar';
+import { todoTasksMockTest, todoTasksNextMockTest, todoTasksPrevMockTest } from '@/mocks/todo-mock-test';
+import TaskDetailDialog from './components/TaskDetailDialog/TaskDetailDialog';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 export default function Home() {
 
   const [calendarType, setCalendarType] = useState(WEEK);
   const [isCalendarClicked, setIsCalendarClicked] = useState(false);
+  const [weekTasks, setWeekTasks] = useState<Array<DailyTasks>>([]);
+  const [weekNum, setWeekNum] = useState(0);
+
+  const dialog = useSelector((state: RootState) => state.dialog);
+
+  let firstDayOfWeek = new Date();
 
   useEffect(() => {
     const currentDay = new Date(2024, 10, 1);
@@ -25,6 +35,9 @@ export default function Home() {
       const newDay = new Date(currentDay.getFullYear(), currentDay.getMonth(), indexOfDay);
       week.push(newDay);
     }
+
+    setWeekTasks(todoTasksMockTest);
+    firstDayOfWeek = new Date(todoTasksMockTest[0].date);
   }, [])
 
   const onToggleCalendarType = () => {
@@ -34,16 +47,6 @@ export default function Home() {
     }
     setCalendarType(WEEK);
   }
-
-  const week: Array<Dates> = [
-    {day: "Mon", date: "20th"},
-    {day: "Tue", date: "21st"},
-    {day: "Wed", date: "22sd"},
-    {day: "Thu", date: "23rd"},
-    {day: "Fri", date: "24th"},
-    {day: "Sat", date: "25th"},
-    {day: "Sun", date: "26th"},
-  ]
 
   const handleShowCalendar = () => {
     setIsCalendarClicked(true);
@@ -63,28 +66,55 @@ export default function Home() {
     layerBackground.classList.remove("show-calendar")
   }
 
+  const onMoveToPrevMonth = () => {
+    if(weekNum === 0) {
+      setWeekTasks(todoTasksPrevMockTest);
+      setWeekNum(weekNum => weekNum - 1);
+    }
+    if(weekNum > 0 && weekNum <= 1) {
+      setWeekTasks(todoTasksMockTest);
+      setWeekNum(weekNum => weekNum - 1);
+    }
+  }
+
+  const onMoveToNextMonth = () => {
+    if(weekNum === 0) {
+      setWeekTasks(todoTasksNextMockTest);
+      setWeekNum(weekNum => weekNum + 1);
+    }
+    if(weekNum >= -1 && weekNum < 0) {
+      setWeekTasks(todoTasksMockTest);
+      setWeekNum(weekNum => weekNum + 1);
+    }
+    
+  }
+
   return (
     <div className="home">
       <div className="calendar-header">
-        <h1 onClick={() => handleShowCalendar()}>OCTOBER 2024</h1>
+        <h1 onClick={() => handleShowCalendar()}>{MONTHS[firstDayOfWeek.getMonth()]} {firstDayOfWeek.getFullYear()}</h1>
         <div className="calendar-options">
           <button onClick={() => onToggleCalendarType()}>{calendarType}</button>
           <ul>
-            <li>
-              <Image 
-                src="/assets/icons/arrow-left.png" 
-                alt="arrow-left" 
-                height={12} 
-                width={7}
-              ></Image>
+            <li onClick={() => onMoveToPrevMonth()}>
+              <button>
+                <Image 
+                  src="/assets/icons/arrow-left.png" 
+                  alt="arrow-left" 
+                  height={12} 
+                  width={7}
+                ></Image>
+              </button>
             </li>
-            <li>
-              <Image 
-                src="/assets/icons/arrow-right.png" 
-                alt="arrow-right" 
-                height={12} 
-                width={7}
-              ></Image>
+            <li onClick={() => onMoveToNextMonth()}>
+              <button>
+                <Image 
+                  src="/assets/icons/arrow-right.png" 
+                  alt="arrow-right" 
+                  height={12} 
+                  width={7}
+                ></Image>
+              </button>
             </li>
             <li>
             <Image 
@@ -100,6 +130,7 @@ export default function Home() {
 
       <div className="calendar-body">
         <Stack
+          className="calendar-body-wrapper"
           direction="row"
           spacing={2}
           sx={{
@@ -107,8 +138,8 @@ export default function Home() {
             alignItems: "center",
           }}
         >
-          {week.map((dates, index) => (
-            <DailyInput key={index} dates={dates} />
+          {weekTasks.map((task, index) => (
+            <DailyInput key={index} task={task} num={index}/>
           ))}
         </Stack>  
       </div>
@@ -180,6 +211,14 @@ export default function Home() {
       </div>
 
       <div className="background-layer" onClick={() => handleClickBackgroundLayer()}></div>
+
+      <div>
+        {dialog.isDialogOpened && <TaskDetailDialog 
+          isDialogOpened={dialog.isDialogOpened}
+          date={dialog.date}
+          task={dialog.task}
+        />}
+      </div>
     </div>
   );
 }

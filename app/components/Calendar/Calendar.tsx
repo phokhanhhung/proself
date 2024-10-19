@@ -3,6 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./Calendar.scss";
 import Image from "next/image";
 import { MONTHS } from "@/types/consts/calendar.const";
+import { isSameDate } from "@/utils/date-handle.util";
 
 type MonthDays = { month: string; daysInMonth: Date[] };
 
@@ -57,12 +58,6 @@ const Calendar = ({isShowedCalendar}: any) => {
   const getDayOfMonth = (month: number, year: number, day: number): number => {
     const date = new Date(year, month, day);
     return date.getDay();
-  }
-  
-  const isSameDate = (firstDate: Date, secondDate: Date) => {
-    return firstDate.getFullYear() === secondDate.getFullYear() 
-    && firstDate.getMonth() === secondDate.getMonth()
-    && firstDate.getDate() === secondDate.getDate()
   }
 
   return (

@@ -1,4 +1,7 @@
 .daily-input {
+  flex: 1;
+  min-width: 0;
+
   &-header {
     border-bottom: 1px #121212 solid;
     padding: 30px 10px 10px;
@@ -7,19 +10,23 @@
       font-size: 20px;
       font-weight: 600;
     }
+
+    img:hover {
+      cursor: pointer;
+    }
   }
 
-  &-body {
-    .MuiInputBase-root.MuiInput-root::before {
-      border-bottom: unset;
-    }
+  // &-body {
+  //   .MuiInputBase-root.MuiInput-root::before {
+  //     border-bottom: unset;
+  //   }
 
-    .MuiInputBase-root.MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before {
-      border-bottom: unset;
-    }
+  //   .MuiInputBase-root.MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before {
+  //     border-bottom: unset;
+  //   }
     
-    input:hover {
-      border: unset;
-    }
-  }
+  //   input:hover {
+  //     border: unset;
+  //   }
+  // }
 }

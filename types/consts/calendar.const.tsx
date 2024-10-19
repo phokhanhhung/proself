@@ -46,3 +46,19 @@ export const MONTHS = [
   NOVEMBER,
   DECEMBER
 ];
+
+export const BLUE = '#90E0EF';
+export const PURPLE = '#CDB4DB';
+export const PINK = '#FFB3C6';
+export const YELLOW = '#E9C46A';
+export const GREEN = '#83C5BE';
+export const GRAY = '#D2D2D7';
+
+export const TASK_HIGHLIGHT_COLOR = {
+  BLUE: BLUE,
+  PURPLE: PURPLE,
+  PINK: PINK,
+  YELLOW: YELLOW,
+  GREEN: GREEN,
+  GRAY: GRAY,
+}
