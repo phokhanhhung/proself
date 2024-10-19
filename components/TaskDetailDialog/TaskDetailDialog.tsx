@@ -15,7 +15,6 @@ const TaskDetailDialog = (
   {date, task, isDialogOpened}: 
   {date: string, task: TaskProps, isDialogOpened: boolean}
 ) => {
-  // const [value, setValue] = useState('');  
   const [currentColor, setCurrentColor] = useState("GRAY");
   const [isImportant, setIsImportant] = useState(false);
   
@@ -132,10 +131,6 @@ const TaskDetailDialog = (
   const handleInputTitleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInputTitle(e.target.value);
   }
-
-  // const handleChangeExtraNotes = (note: string) => {
-  //   console.log("string", note)
-  // }
 
   const handleSaveTask = () => {
     const task = {
