@@ -11,7 +11,6 @@ const QuillEditor = () => {
     const quill = new Quill('#editor', {
       modules: {
         toolbar: '#toolbar',
-        
       },
       placeholder: 'Compose an epic...',
     });

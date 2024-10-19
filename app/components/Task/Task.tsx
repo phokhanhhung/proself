@@ -1,11 +1,9 @@
 "use client"
-
 import type { TaskProps } from "@/types/interfaces/calendar.interface";
 import Image from "next/image";
 import "./Task.scss";
 import { TASK_HIGHLIGHT_COLOR } from "@/types/consts/calendar.const";
-import { useEffect, useRef, useState } from "react";
-import TaskDetailDialog from "../TaskDetailDialog/TaskDetailDialog";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDialogState } from "@/store/features/task/dialogSlice";
 
@@ -21,8 +19,6 @@ const Task = (
   
   const taskRef = useRef<HTMLDivElement>(null);
   const tickRef = useRef<HTMLImageElement>(null);
-
-  const [isDialogOpened, setIsDialogOpened] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -62,11 +58,6 @@ const Task = (
       dispatch(setDialogState({task, date: date.toISOString(), isDialogOpened: true}));
     }
   }
-
-  // const getDialogStatus = (state: boolean) => {
-  //   dispatch(getCurrentTask({task, date, isDialogOpened: true}));
-  //   setIsDialogOpened(state);
-  // }
   
   return (
     <div 

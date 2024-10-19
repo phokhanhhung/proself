@@ -4,7 +4,7 @@ import './Home.scss';
 import Image from 'next/image';
 import { MONTH, WEEK, MONTHS } from '../types/consts/calendar.const';
 import DailyInput from './components/DailyInput/DailyInput';
-import { DailyTasks, Dates } from '@/types/interfaces/calendar.interface';
+import { DailyTasks } from '@/types/interfaces/calendar.interface';
 import { Stack, TextField } from '@mui/material';
 import Calendar from './components/Calendar/Calendar';
 import { todoTasksMockTest, todoTasksNextMockTest, todoTasksPrevMockTest } from '@/mocks/todo-mock-test';

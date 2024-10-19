@@ -1,26 +1,21 @@
 "use client"
-
 import Image from "next/image";
 import "./TaskDetailDialog.scss";
 import { TextField } from "@mui/material";
-import Quill from "quill";
-import { useEffect, useRef, useState } from "react";
-import ReactQuill from 'react-quill';
+import { useEffect, useState } from "react";
 import 'react-quill/dist/quill.snow.css';
 import { TASK_HIGHLIGHT_COLOR } from "@/types/consts/calendar.const";
 import { getDialogDateFormat } from '../../../utils/date-handle.util';
 import { TaskProps } from "@/types/interfaces/calendar.interface";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setDialogState } from "@/store/features/task/dialogSlice";
-import dialogSlice from '../../../store/features/task/dialogSlice';
-import { RootState } from "@/store/store";
 import QuillEditor from '../Editor/Editor';
 
 const TaskDetailDialog = (
   {date, task, isDialogOpened}: 
   {date: string, task: TaskProps, isDialogOpened: boolean}
 ) => {
-  const [value, setValue] = useState('');  
+  // const [value, setValue] = useState('');  
   const [currentColor, setCurrentColor] = useState("GRAY");
   const [isImportant, setIsImportant] = useState(false);
   
@@ -32,22 +27,6 @@ const TaskDetailDialog = (
   useEffect(() => {
     setIsImportant(task.isImportant)
   }, [task])
-
-  const modules = {
-    toolbar: [
-      [{ size: [ 'small', false, 'large', 'huge' ] }],
-      ['bold', 'italic', 'underline','strike'],
-      [{'list': 'bullet'}],
-      ['image', 'link'],
-    ],
-  }
-
-  const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-  ]
 
   const optionButtons = [
     {
@@ -123,10 +102,10 @@ const TaskDetailDialog = (
     const dialogHeader = document.getElementsByClassName(`dialog-header`)[0] as HTMLElement;
     dialogHeader.style.backgroundColor = color.color;
     const target = e.currentTarget as HTMLElement;
-    // setCurrentColor(color.name);
+    setCurrentColor(color.name);
     console.log("ngoai", target);
     if(target && target.children.length > 0) {
-      // setCurrentColor("GRAY");
+      setCurrentColor("GRAY");
       dialogHeader.style.backgroundColor = TASK_HIGHLIGHT_COLOR["GRAY"];
       console.log(target);
     }
@@ -144,9 +123,9 @@ const TaskDetailDialog = (
     setInputTitle(e.target.value);
   }
 
-  const handleChangeExtraNotes = (note: string) => {
-    console.log("string", note)
-  }
+  // const handleChangeExtraNotes = (note: string) => {
+  //   console.log("string", note)
+  // }
 
   const handleSaveTask = () => {
     const task = {

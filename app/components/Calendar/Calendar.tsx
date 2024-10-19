@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Calendar.scss";
 import Image from "next/image";
 import { MONTHS } from "@/types/consts/calendar.const";

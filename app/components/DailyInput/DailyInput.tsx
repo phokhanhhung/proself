@@ -1,13 +1,12 @@
 "use client"
 
 import "./DailyInput.scss";
-import { DailyTasks, Dates, TaskProps } from '@/types/interfaces/calendar.interface';
+import { DailyTasks, TaskProps } from '@/types/interfaces/calendar.interface';
 import { dateToDay, getDaySuffix } from "@/utils/date-handle.util";
-import { Stack, TextField } from '@mui/material';
+import { Stack } from '@mui/material';
 import Image from 'next/image';
 import Task from "../Task/Task";
 import { isSameDate } from '../../../utils/date-handle.util';
-import TaskDetailDialog from "../TaskDetailDialog/TaskDetailDialog";
 import { useState } from "react";
 
 const defaultTask: TaskProps = {
