@@ -1,14 +1,14 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Home.scss';
 import Image from 'next/image';
 import { MONTH, WEEK, MONTHS } from '../types/consts/calendar.const';
-import DailyInput from './components/DailyInput/DailyInput';
+import DailyInput from '../components/DailyInput/DailyInput';
 import { DailyTasks } from '@/types/interfaces/calendar.interface';
 import { Stack, TextField } from '@mui/material';
-import Calendar from './components/Calendar/Calendar';
+import Calendar from '../components/Calendar/Calendar';
 import { todoTasksMockTest, todoTasksNextMockTest, todoTasksPrevMockTest } from '@/mocks/todo-mock-test';
-import TaskDetailDialog from './components/TaskDetailDialog/TaskDetailDialog';
+import TaskDetailDialog from '../components/TaskDetailDialog/TaskDetailDialog';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
@@ -21,7 +21,10 @@ export default function Home() {
 
   const dialog = useSelector((state: RootState) => state.dialog);
 
+  const isBrowser = typeof window !== 'undefined';
   let firstDayOfWeek = new Date();
+  const nav = useRef<HTMLElement | null>(null);
+  const layerBackground = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const currentDay = new Date(2024, 10, 1);
@@ -38,6 +41,11 @@ export default function Home() {
 
     setWeekTasks(todoTasksMockTest);
     firstDayOfWeek = new Date(todoTasksMockTest[0].date);
+
+    if(isBrowser) {
+      nav.current = document.getElementsByClassName('home-nav-calendar')[0] as HTMLElement;
+      layerBackground.current = document.getElementsByClassName('background-layer')[0] as HTMLElement;
+    }
   }, [])
 
   const onToggleCalendarType = () => {
@@ -50,20 +58,14 @@ export default function Home() {
 
   const handleShowCalendar = () => {
     setIsCalendarClicked(true);
-    const nav = document.getElementsByClassName('home-nav-calendar')[0];
-    nav.classList.add("show-nav-calendar");
-
-    const layerBackground = document.getElementsByClassName('background-layer')[0];
-    layerBackground.classList.add("show-calendar")
+    nav.current?.classList.add("show-nav-calendar");
+    layerBackground.current?.classList.add("show-calendar")
   }
 
   const handleClickBackgroundLayer = () => {
     setIsCalendarClicked(false);
-    const nav = document.getElementsByClassName('home-nav-calendar')[0];
-    nav.classList.remove("show-nav-calendar");
-
-    const layerBackground = document.getElementsByClassName('background-layer')[0];
-    layerBackground.classList.remove("show-calendar")
+    nav.current?.classList.remove("show-nav-calendar");
+    layerBackground.current?.classList.remove("show-calendar")
   }
 
   const onMoveToPrevMonth = () => {

@@ -6,7 +6,7 @@ import { dateToDay, getDaySuffix } from "@/utils/date-handle.util";
 import { Stack } from '@mui/material';
 import Image from 'next/image';
 import Task from "../Task/Task";
-import { isSameDate } from '../../../utils/date-handle.util';
+import { isSameDate } from '../../utils/date-handle.util';
 import { useState } from "react";
 
 const defaultTask: TaskProps = {

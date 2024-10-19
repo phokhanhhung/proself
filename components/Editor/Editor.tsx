@@ -1,6 +1,5 @@
-"use client"
+"use client";
 import Image from "next/image";
-import { Quill } from "react-quill";
 import './Editor.scss';
 import 'quill/dist/quill.snow.css';
 import { useEffect } from "react";
@@ -8,14 +7,17 @@ import { useEffect } from "react";
 const QuillEditor = () => {
 
   useEffect(() => {
-    const quill = new Quill('#editor', {
-      modules: {
-        toolbar: '#toolbar',
-      },
-      placeholder: 'Compose an epic...',
-    });
-
-
+    // Check if window is defined (client-side rendering)
+    if (typeof window !== 'undefined') {
+      import('quill').then(({ default: Quill }) => {
+        const quill = new Quill('#editor', {
+          modules: {
+            toolbar: '#toolbar',
+          },
+          placeholder: 'Compose an epic...',
+        });
+      });
+    }
   }, []);
 
   return (

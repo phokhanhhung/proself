@@ -2,10 +2,10 @@
 import Image from "next/image";
 import "./TaskDetailDialog.scss";
 import { TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import 'react-quill/dist/quill.snow.css';
 import { TASK_HIGHLIGHT_COLOR } from "@/types/consts/calendar.const";
-import { getDialogDateFormat } from '../../../utils/date-handle.util';
+import { getDialogDateFormat } from '../../utils/date-handle.util';
 import { TaskProps } from "@/types/interfaces/calendar.interface";
 import { useDispatch } from "react-redux";
 import { setDialogState } from "@/store/features/task/dialogSlice";
@@ -24,8 +24,17 @@ const TaskDetailDialog = (
 
   const dispatch = useDispatch();
 
+  const othersDialog = useRef<HTMLElement | null>(null);
+  const dialogHeader = useRef<HTMLElement | null>(null);
+  const dialog = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
-    setIsImportant(task.isImportant)
+    setIsImportant(task.isImportant);
+    if(typeof window !== 'undefined') {
+      othersDialog.current = document.getElementsByClassName(`dialog-others-wrapper`)[0] as HTMLElement;
+      dialogHeader.current = document.getElementsByClassName(`dialog-header`)[0] as HTMLElement;
+      dialog.current = document.getElementsByClassName("dialog-wrapper")[0] as HTMLElement;
+    }
   }, [task])
 
   const optionButtons = [
@@ -70,52 +79,52 @@ const TaskDetailDialog = (
   ];
 
   const handleCloseOthersDialog = () => {
-    const othersDialog = document.getElementsByClassName(`dialog-others-wrapper`)[0];
-    const dialogHeader = document.getElementsByClassName(`dialog-header`)[0];
     if (dialogHeader) {
-      const children = dialogHeader.children;
-      for (let i = 0; i < children.length; i++) {
-        const child = children[i] as HTMLElement;
-        child.classList.remove("close-dialog-header");
+      const children = dialogHeader.current?.children;
+      if(children) {
+        for (let i = 0; i < children?.length; i++) {
+          const child = children[i] as HTMLElement;
+          child.classList.remove("close-dialog-header");
+        }
       }
     }
-    dialogHeader.classList.remove("shorten-header");
-    othersDialog.classList.remove("open-others-dialog");
+    dialogHeader.current?.classList.remove("shorten-header");
+    othersDialog.current?.classList.remove("open-others-dialog");
   }
 
   const handleOpenOthersDialog = () => {
-    const othersDialog = document.getElementsByClassName(`dialog-others-wrapper`)[0];
-    const dialogHeader = document.getElementsByClassName(`dialog-header`)[0];
     if (dialogHeader) {
-      const children = dialogHeader.children;
-      for (let i = 0; i < children.length; i++) {
-        const child = children[i] as HTMLElement;
-        child.classList.add("close-dialog-header");
+      const children = dialogHeader.current?.children;
+      if(children) {
+        for (let i = 0; i < children?.length; i++) {
+          const child = children[i] as HTMLElement;
+          child.classList.add("close-dialog-header");
+        }
       }
     }
-    dialogHeader.classList.add("shorten-header");
-    othersDialog.classList.add("open-others-dialog");
+    dialogHeader.current?.classList.add("shorten-header");
+    othersDialog.current?.classList.add("open-others-dialog");
     console.log("clcikc", othersDialog, dialogHeader)
   }
 
   const handleChooseColor = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, color: {name: string, color: string}) => {
-    const dialogHeader = document.getElementsByClassName("dialog-header")[0] as HTMLElement;
-    const editor = document.getElementById("toolbar") as HTMLElement;
-    dialogHeader.style.backgroundColor = color.color;
+    if(dialogHeader.current) {
+      dialogHeader.current.style.backgroundColor = color.color;
+    }
+    
     const target = e.currentTarget as HTMLElement;
     setCurrentColor(color.name);
-    console.log("ngoai", target, "edit", editor);
     if(target && target.children.length > 0) {
       setCurrentColor("GRAY");
-      dialogHeader.style.backgroundColor = TASK_HIGHLIGHT_COLOR["GRAY"];
+      if(dialogHeader.current)
+      dialogHeader.current.style.backgroundColor = TASK_HIGHLIGHT_COLOR["GRAY"];
       console.log(target);
     }
   }
 
   const handleCloseDialog = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
-    const dialog = document.getElementsByClassName("dialog-wrapper")[0];
-    dialog.classList.remove("open-dialog");
+    dialog.current?.classList.remove("open-dialog");
     handleCloseOthersDialog();
     dispatch(setDialogState({isDialogOpened: false}))
   }
