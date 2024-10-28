@@ -12,11 +12,11 @@ const CustomInput = memo((
   const id = useId();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     onInputChange(e.target.value);
     setInputValue(e.target.value);
     console.log(e.target.value)
-  }, []);
+  };
 
   useEffect(() => {
     if(label === USER_DIALOG.LABEL_USERNAME_INPUT) {
@@ -78,5 +78,7 @@ const CustomInput = memo((
     />
   );
 })
+
+CustomInput.displayName = 'CustomInput';
 
 export default CustomInput;

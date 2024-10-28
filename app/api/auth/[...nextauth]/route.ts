@@ -3,7 +3,7 @@ import AxiosInstance from 'axios';
 import { signIn } from "next-auth/react";
 import NextAuth from "next-auth";
 
-export const authOptions = {
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
