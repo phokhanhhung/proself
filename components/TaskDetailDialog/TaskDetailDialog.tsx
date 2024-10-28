@@ -8,14 +8,14 @@ import { TASK_HIGHLIGHT_COLOR } from "@/types/consts/calendar.const";
 import { getDialogDateFormat } from '../../utils/date-handle.util';
 import { TaskProps } from "@/types/interfaces/calendar.interface";
 import { useDispatch } from "react-redux";
-import { setDialogState } from "@/store/features/task/dialogSlice";
+import { setDialogState } from "@/store/features/taskDetailDialog/taskDetailDialogSlice";
 import QuillEditor from '../Editor/Editor';
 
 const TaskDetailDialog = (
   {date, task, isDialogOpened}: 
   {date: string, task: TaskProps, isDialogOpened: boolean}
 ) => {
-  const [currentColor, setCurrentColor] = useState("GRAY");
+  const [currentColor, setCurrentColor] = useState(0);
   const [isImportant, setIsImportant] = useState(false);
   
   const [inputTitle, setInputTitle] = useState(task.taskName || '');
@@ -25,16 +25,25 @@ const TaskDetailDialog = (
 
   const othersDialog = useRef<HTMLElement | null>(null);
   const dialogHeader = useRef<HTMLElement | null>(null);
-  const dialog = useRef<HTMLElement | null>(null);
+  const dialogWrapper = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setIsImportant(task.isImportant);
     if(typeof window !== 'undefined') {
       othersDialog.current = document.getElementsByClassName(`dialog-others-wrapper`)[0] as HTMLElement;
       dialogHeader.current = document.getElementsByClassName(`dialog-header`)[0] as HTMLElement;
-      dialog.current = document.getElementsByClassName("dialog-wrapper")[0] as HTMLElement;
+      dialogWrapper.current = document.getElementsByClassName("dialog-wrapper")[0] as HTMLElement;
+      
+      // Mover from top: 50% -> top: 20% when appear
+      requestAnimationFrame(() => {
+        const firstChild = dialogWrapper.current?.children[0];
+        if (firstChild) {
+          firstChild.classList.add('move-up');
+        }
+      });
+      
     }
-  }, [task])
+  }, [task]);
 
   const optionButtons = [
     {
@@ -56,23 +65,23 @@ const TaskDetailDialog = (
 
   const colorOptions = [
     {
-      name: "YELLOW",
+      index: 4,
       color: "#E9C46A",
     },
     {
-      name: "GREEN",
+      index: 5,
       color: "#83C5BE",
     },
     {
-      name: "PINK",
+      index: 3,
       color: "#FFB3C6",
     },
     {
-      name: "PURPLE",
+      index: 2,
       color: "#CDB4DB",
     },
     {
-      name: "BLUE",
+      index: 1,
       color: "#90E0EF",
     },
   ];
@@ -106,24 +115,24 @@ const TaskDetailDialog = (
     console.log("clcikc", othersDialog, dialogHeader)
   }
 
-  const handleChooseColor = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, color: {name: string, color: string}) => {
+  const handleChooseColor = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, color: {index: number, color: string}) => {
     if(dialogHeader.current) {
       dialogHeader.current.style.backgroundColor = color.color;
     }
     
     const target = e.currentTarget as HTMLElement;
-    setCurrentColor(color.name);
+    setCurrentColor(color.index);
     if(target && target.children.length > 0) {
-      setCurrentColor("GRAY");
+      setCurrentColor(0);
       if(dialogHeader.current)
-      dialogHeader.current.style.backgroundColor = TASK_HIGHLIGHT_COLOR["GRAY"];
+      dialogHeader.current.style.backgroundColor = TASK_HIGHLIGHT_COLOR[0];
       console.log(target);
     }
   }
 
   const handleCloseDialog = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
-    dialog.current?.classList.remove("open-dialog");
+    dialogWrapper.current?.classList.remove("open-dialog");
     handleCloseOthersDialog();
     dispatch(setDialogState({isDialogOpened: false}))
   }
@@ -204,15 +213,6 @@ const TaskDetailDialog = (
             />
           </div>
           <div className="dialog-body-quill-editor">
-            {/* <ReactQuill 
-              theme="snow" 
-              value={value} 
-              onChange={(note) => handleChangeExtraNotes(note)} 
-              modules={modules}
-              formats={formats}
-              placeholder="Add some extra notes here..."
-            /> */}
-
             <QuillEditor />
           </div>
         </div>
@@ -225,11 +225,11 @@ const TaskDetailDialog = (
                   <li 
                     key={i} 
                     value={color.color} 
-                    style={{backgroundColor: `${TASK_HIGHLIGHT_COLOR[color.name as keyof typeof TASK_HIGHLIGHT_COLOR]}`}}
+                    style={{backgroundColor: `${TASK_HIGHLIGHT_COLOR[color.index]}`}}
                     onClick={(e) => handleChooseColor(e, color)}
                   >
                     {
-                      currentColor === color.name 
+                      currentColor === color.index 
                       ? <Image 
                           src="/assets/icons/check.svg" 
                           width={16} 

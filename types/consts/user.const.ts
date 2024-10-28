@@ -1,0 +1,16 @@
+export const USER_DIALOG = {
+  APPLICATION_NAME: "PROSELF",
+  SLOGAN: "Be Your Best Self with Proself!", 
+  LOGIN_TAB: "Login",
+  SIGNUP_TAB: "Signup",
+  FORGOT_PASSWORD: "Forgot password?",
+  LOGIN_BUTTON: "Let me in!",
+  SIGNUP_BUTTON: "Create account",
+  TERM_TEXT: "By proceeding, you agree to the Terms and Conditions,<br /> Privacy Policy & Cookies Policy",
+  WELCOME_TEXT: "Hi, <br />Welcome back!",
+  FIRST_GREETING_TEXT: "Hi, <br />Nice to meet you!",
+  LABEL_USERNAME_INPUT: "User Name",
+  LABEL_PASSWORD_INPUT: "Password",
+  LABEL_EMAIL_INPUT: "Email",
+  LABEL_CONFIRM_PASSWORD_INPUT: "Confirm password",
+}

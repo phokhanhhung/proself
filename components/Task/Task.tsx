@@ -2,10 +2,10 @@
 import type { TaskProps } from "@/types/interfaces/calendar.interface";
 import Image from "next/image";
 import "./Task.scss";
-import { TASK_HIGHLIGHT_COLOR } from "@/types/consts/calendar.const";
-import { useRef, useState } from "react";
+import { DEFAULT, TASK_HIGHLIGHT_COLOR } from "@/types/consts/calendar.const";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setDialogState } from "@/store/features/task/dialogSlice";
+import { setDialogState } from "@/store/features/taskDetailDialog/taskDetailDialogSlice";
 
 const doneTaskStyles = {
   textDecoration: "line-through",
@@ -13,18 +13,14 @@ const doneTaskStyles = {
 }
 
 const Task = (
-  {task, borderStyle, date, isEmptyTask, num}: 
-  {task: TaskProps, borderStyle: string, date: Date, isEmptyTask: boolean, num?: number}
+  {task, date, isEmptyTask}: 
+  {task: TaskProps, date: Date, isEmptyTask: boolean}
 ) => {
   
   const taskRef = useRef<HTMLDivElement>(null);
   const tickRef = useRef<HTMLImageElement>(null);
 
   const dispatch = useDispatch();
-
-  const getHighlightColor = (color: string) => {
-    return TASK_HIGHLIGHT_COLOR[color as keyof typeof TASK_HIGHLIGHT_COLOR];
-  }
 
   const handleOnTickToDoneButton = () => {
     const textEl = taskRef.current?.children[0].children[0];
@@ -52,24 +48,20 @@ const Task = (
   }
 
   const handleOpenDialog = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    // Only show pop-up if task is not empty -> for editing or the first empty task
-    if(!isEmptyTask || (isEmptyTask && num === 0)) {
-      e.stopPropagation();
-      dispatch(setDialogState({task, date: date.toISOString(), isDialogOpened: true}));
-    }
+    e.stopPropagation();
+    dispatch(setDialogState({task, date: date.toISOString(), isDialogOpened: true}));
   }
   
   return (
     <div 
-      className={`task task-${num} ${!isEmptyTask ? "task-on-hover" : ""}`} 
-      style={{ borderBottom: borderStyle }} 
+      className="task"
       ref={taskRef} 
       onClick={(e) => handleOpenDialog(e)}
     >
       <div className="task-text">
         <div className="text" style={task.isDone ? doneTaskStyles : {}}>{task?.taskName}</div>
-        {!task.isDone && task.highlight &&
-          <div className="task-text-highlight" style={{backgroundColor: getHighlightColor(task.highlight)}}></div>
+        {!task.isDone && TASK_HIGHLIGHT_COLOR[task.highlight] !== DEFAULT &&
+          <div className="task-text-highlight" style={{backgroundColor: TASK_HIGHLIGHT_COLOR[task.highlight]}}></div>
         }
         {!task.isDone && task.isImportant &&
         <Image 

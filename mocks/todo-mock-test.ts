@@ -12,7 +12,7 @@ export const todoTasksMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": true,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -30,7 +30,7 @@ export const todoTasksMockTest = [
         "taskName": "Hover to complete",
         "isImportant": true,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -43,14 +43,14 @@ export const todoTasksMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       },
       {
         "taskName": "No need to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -63,7 +63,7 @@ export const todoTasksMockTest = [
         "taskName": "Hover to complete",
         "isImportant": true,
         "isDone": true,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -76,7 +76,7 @@ export const todoTasksMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -92,14 +92,14 @@ export const todoTasksPrevMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       },
       {
         "taskName": "No need to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -112,7 +112,7 @@ export const todoTasksPrevMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": true,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -125,7 +125,7 @@ export const todoTasksPrevMockTest = [
         "taskName": "Hover to complete",
         "isImportant": true,
         "isDone": false,
-        "highlight": "",
+        "highlight": 0,
         "subTasks": ""
       }
     ]
@@ -143,7 +143,7 @@ export const todoTasksPrevMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -156,7 +156,7 @@ export const todoTasksPrevMockTest = [
         "taskName": "Hover to complete",
         "isImportant": true,
         "isDone": true,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -177,7 +177,7 @@ export const todoTasksNextMockTest = [
         "taskName": "Hover to complete",
         "isImportant": true,
         "isDone": false,
-        "highlight": "",
+        "highlight": 0,
         "subTasks": ""
       }
     ]
@@ -190,7 +190,7 @@ export const todoTasksNextMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": true,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -213,7 +213,7 @@ export const todoTasksNextMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -226,14 +226,14 @@ export const todoTasksNextMockTest = [
         "taskName": "Hover to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       },
       {
         "taskName": "No need to complete",
         "isImportant": false,
         "isDone": false,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]
@@ -246,7 +246,7 @@ export const todoTasksNextMockTest = [
         "taskName": "Hover to complete",
         "isImportant": true,
         "isDone": true,
-        "highlight": "BLUE",
+        "highlight": 1,
         "subTasks": ""
       }
     ]

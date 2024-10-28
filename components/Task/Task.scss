@@ -7,6 +7,7 @@
   padding: 0 10px;
   gap: 4px;
   color: var(--black-main);
+  border-bottom: 1px solid var(--gray-main);
 
   &-text {
     position: relative;
@@ -61,8 +62,7 @@
   }
 }
 
-.task-0:hover,
-.task-on-hover:hover {
+.task:hover {
   border-bottom: #00B4D8 1px solid !important;
   cursor: pointer;
 }

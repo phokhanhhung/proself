@@ -13,14 +13,13 @@ const defaultTask: TaskProps = {
   taskName: "",
   isImportant: false,
   isDone: false,
-  highlight: "",
+  highlight: 0,
   subTasks: "",
 };
 
 const dailyInputHeaderStyles = {
   color: "#00B4D8",
   borderBottom: "#00B4D8 solid 1px",
-  backgroundColor: "#CAF0F8",
 }
 
 const dailyInputHeaderIconStyles = {
@@ -32,20 +31,6 @@ const DailyInput = ({task, num}: {task: DailyTasks, num: number}) => {
   const currentDate = new Date();
 
   const isCurrentDay = isSameDate(currentDate, date);
-
-  const [isDialogOpened, setIsDialogOpened] = useState(false);
-  const [currentTask, setCurrentTask] = useState<TaskProps>(defaultTask);
-
-  const getBorderStyle = (index: number) => {
-    return task.listTasks.length % 2 === 0
-    ? index % 2 === 0
-      ? "1px solid #F5F5F7"
-      : "1px solid #D2D2D7"
-    : index % 2 === 0
-      ? "1px solid #D2D2D7"
-      : "1px solid #F5F5F7"
-
-  } 
 
   return (
     <div className="daily-input">
@@ -77,20 +62,16 @@ const DailyInput = ({task, num}: {task: DailyTasks, num: number}) => {
         {task.listTasks.map((task, i) => (
           <Task 
             key={`${num}-${i}`} 
-            num={i} 
             task={task} 
             date={date}
-            borderStyle={i%2===0 ? "1px solid #F5F5F7" : "1px solid #D2D2D7"}
             isEmptyTask={false}
           />
         ))}
         {Array.from({ length: 10 - task.listTasks.length }, (_, i) => i + 1).map((_, i) => (
           <Task 
             key={`${num}-${i + task.listTasks.length}`} 
-            num={i}
             date={date}
             task={defaultTask} 
-            borderStyle={getBorderStyle(i)} 
             isEmptyTask={true} 
           />
         ))}

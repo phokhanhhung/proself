@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import { useEffect, useRef, useState } from 'react';
 import './Home.scss';
 import Image from 'next/image';
@@ -11,6 +11,7 @@ import { todoTasksMockTest, todoTasksNextMockTest, todoTasksPrevMockTest } from 
 import TaskDetailDialog from '../components/TaskDetailDialog/TaskDetailDialog';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import CustomInput from '@/components/CustomInput/CustomInput';
 
 export default function Home() {
 
@@ -19,7 +20,7 @@ export default function Home() {
   const [weekTasks, setWeekTasks] = useState<Array<DailyTasks>>([]);
   const [weekNum, setWeekNum] = useState(0);
 
-  const dialog = useSelector((state: RootState) => state.dialog);
+  const dialog = useSelector((state: RootState) => state.taskDetailDialog);
 
   const isBrowser = typeof window !== 'undefined';
   let firstDayOfWeek = new Date();
@@ -88,7 +89,6 @@ export default function Home() {
       setWeekTasks(todoTasksMockTest);
       setWeekNum(weekNum => weekNum + 1);
     }
-    
   }
 
   return (
@@ -220,6 +220,10 @@ export default function Home() {
           date={dialog.date}
           task={dialog.task}
         />}
+      </div>
+
+      <div style={{width: "100px"}}>
+        <CustomInput type='text' label='Name' onInputChange={() => true}/>
       </div>
     </div>
   );

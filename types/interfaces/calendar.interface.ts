@@ -14,6 +14,6 @@ export interface TaskProps {
   taskName: string;
   isImportant: boolean;
   isDone: boolean;
-  highlight: string;
+  highlight: number;
   subTasks: string;
 }

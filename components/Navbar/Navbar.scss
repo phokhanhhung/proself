@@ -1,4 +1,4 @@
-.nav {
+.nav-wrapper {
   width: 100px;
   height: 100vh;
   border-right: 1px #D2D2D7 solid;
@@ -7,26 +7,89 @@
   background-color: #ffffff;
   z-index: 1000;
 
-  ul {
-    li {
-      width: 80px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
 
-      a {
-        width: 100%;
+    ul {
+      li {
+        position: relative;
+        width: 80px;
+        height: 80px;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        text-decoration: none;
-        color: #000000;
+        justify-content: center;
+        cursor: pointer;
 
-        p {
-          margin-top: 10px;
-          font-size: 12px;
+        a {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-decoration: none;
+          color: #000000;
+
+          p {
+            margin-top: 10px;
+            font-size: 12px;
+          }
+        }
+
+        .account-subnav {
+          opacity: 0;
+          bottom: -20px;
+          left: 100px;
+          position: absolute;
+          background-color: var(--white-main);
+          box-shadow: 0px 6px 6px 0 rgba(18, 18, 18, 0.25);
+          border-radius: 14px;
+          pointer-events: none;
+          transition: all ease .5s;
+
+          li {
+            width: 240px;
+            height: 40px;
+
+            a, div {
+              font-size: 16px;
+              width: 100%;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-between;
+              text-decoration: none;
+              color: var(--black-main);
+              padding: 8px 20px;
+
+              p {
+                margin: 0;
+                font-size: 16px;
+              }
+            }
+          }
+
+          li:first-child {
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+          }
+
+          li:last-child {
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+          }
+
+          li:hover {
+            background-color: rgb(245, 245, 247);
+          }
+        }
+
+        .account-subnav.appear {
+          opacity: 1;
+          bottom: 0;
+          pointer-events: auto;
         }
       }
     }

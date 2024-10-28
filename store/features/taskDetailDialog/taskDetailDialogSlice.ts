@@ -2,21 +2,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TaskProps } from '../../../types/interfaces/calendar.interface';
 
-interface DialogStatus {
+interface TaskDetailDialogStatus {
   task?: TaskProps;
   isDialogOpened?: boolean;
   date?: string;
 }
 
-export const dialogSlice = createSlice({
-  name: "dialog",
+export const taskDetailDialogSlice = createSlice({
+  name: "taskDetailDialog",
   initialState: {
     task: {} as TaskProps,
     date: new Date().toISOString(),
     isDialogOpened: false,
   },
   reducers: {
-    setDialogState: (state: DialogStatus, action: PayloadAction<DialogStatus>) => {
+    setDialogState: (state: TaskDetailDialogStatus, action: PayloadAction<TaskDetailDialogStatus>) => {
       state.task = action.payload.task;
       state.isDialogOpened = action.payload.isDialogOpened;
       state.date = action.payload.date;
@@ -24,5 +24,5 @@ export const dialogSlice = createSlice({
   }
 })
 
-export const { setDialogState } = dialogSlice.actions;
-export default dialogSlice.reducer;
+export const { setDialogState } = taskDetailDialogSlice.actions;
+export default taskDetailDialogSlice.reducer;

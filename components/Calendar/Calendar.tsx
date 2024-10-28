@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import "./Calendar.scss";
 import Image from "next/image";
 import { MONTHS } from "@/types/consts/calendar.const";
@@ -19,10 +19,13 @@ const currentDateStyle = {
 
 const Calendar = ({isShowedCalendar}: any) => {
   const currentMonthRef = useRef<HTMLDivElement>(null);
+  const monthsRef = useRef<HTMLDivElement>(null);
   
   const currentDate = new Date();
 
   const [monthsInYear, setMonthsInYear] = useState(Array<MonthDays>);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [isCalendarRendered, setIsCalendarRendered] = useState(false);
 
   const getDaysInMonth = (month: number, year: number) => {
     const date = new Date(year, month, 1);
@@ -32,43 +35,59 @@ const Calendar = ({isShowedCalendar}: any) => {
     while (date.getMonth() === month) {
       days.push(new Date(date)); 
       date.setDate(date.getDate() + 1); 
-      
     }
     return days;
   }
 
-  if (monthsInYear.length === 0) {
-    const newMonthsInYear: MonthDays[] = months.map((month, index) => {
-      const arrOfDays = getDaysInMonth(index, new Date().getFullYear());
-      return { month, daysInMonth: arrOfDays };
-    });
-
-    setMonthsInYear(newMonthsInYear);
-  }
+  useEffect(() => {
+      console.log("hehe click ne");
+      const newMonthsInYear: MonthDays[] = months.map((month, index) => {
+        console.log(year)
+        const arrOfDays = getDaysInMonth(index, year);
+        return { month, daysInMonth: arrOfDays };
+      });
+      setMonthsInYear(newMonthsInYear);
+  }, [isCalendarRendered, year])
 
   useEffect(() => {
-    if (currentMonthRef.current) {
-      console.log("cur ref", currentMonthRef);
-      (currentMonthRef.current as HTMLElement)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if(currentDate.getFullYear() === year) {
+      handleScrollIntoView(currentMonthRef);
     } else {
-      console.error('Current month element not found:');
+      handleScrollIntoView(monthsRef)
     }
-  }, [isShowedCalendar])
+    setIsCalendarRendered(true);
+  }, [isShowedCalendar, year]);
+
+  const handleScrollIntoView = (node: RefObject<HTMLElement>) => {
+    if (node.current) {
+      (node.current as HTMLElement)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      console.error('Element not found:');
+    }
+  }
 
   const getDayOfMonth = (month: number, year: number, day: number): number => {
     const date = new Date(year, month, day);
     return date.getDay();
   }
 
+  const handleMoveToPreviousYear = () => {
+    setYear(year => year - 1);
+  }
+
+  const handleMoveToNextYear = () => {
+    setYear(year => year + 1);
+  }
+
   return (
     <div className="calendar" id="calendar">
       <div className="calendar-header">
         <h1>
-          2024
+          {year}
         </h1>
 
         <div className="year-direction">
-          <button>
+          <button onClick={() => handleMoveToPreviousYear()}>
             <Image 
               src="/assets/icons/arrow-left.png" 
               alt="arrow-left" 
@@ -76,7 +95,7 @@ const Calendar = ({isShowedCalendar}: any) => {
               width={7}
             ></Image>
           </button>
-          <button>
+          <button onClick={() => handleMoveToNextYear()}>
             <Image 
               src="/assets/icons/arrow-right.png" 
               alt="arrow-right" 
@@ -88,12 +107,13 @@ const Calendar = ({isShowedCalendar}: any) => {
       </div>
 
       <div className="calendar-body">
-        <div className="calendar-months">
+        <div className="calendar-months" ref={monthsRef}>
           {monthsInYear.map((month, index) => {
-            let  startDate = getDayOfMonth(index, currentDate.getFullYear(), 1);
+            console.log(month)
+            let  startDate = getDayOfMonth(index, year, 1);
             // getDay return 0 - 6 --> Sun - Sat. However, in this app, Sunday should be 7 due to our calendar is from Mon - Sun 
             startDate = startDate === 0 ? 6 : startDate - 1;  
-            const endDate = getDayOfMonth(index, currentDate.getFullYear(), month.daysInMonth.length - 1);
+            const endDate = getDayOfMonth(index, year, month.daysInMonth.length - 1);
             let emptyStartDates: Array<number> = [];
             if (startDate > 0 ){
               emptyStartDates = Array(startDate).fill(null);
@@ -110,7 +130,7 @@ const Calendar = ({isShowedCalendar}: any) => {
             let endDateOfWeek = 7 - emptyStartDates.length;
             let startDateOfWeek = 0;
             return (
-              <div key={index} className="month" id={`month-${index}`} ref={currentDate.getMonth() === index ? currentMonthRef : null}>
+              <div key={index} className="month" id={`month-${index}`} ref={(currentDate.getFullYear() === year && currentDate.getMonth() === index) ? currentMonthRef : null}>
                 <h2>{month.month}</h2>
                 <div className="days-grid">
                   {
