@@ -1,0 +1,129 @@
+@mixin flex-styles() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home {
+  width: 100%;
+  padding: 0 10px;
+  position: relative;
+
+  .background-layer {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    display: none;
+  }
+
+  .background-layer.show-calendar {
+    display: block;
+    background-color: #D2D2D7;
+    opacity: .5;
+  }
+
+  .calendar-header {
+    padding: 28px 0px;
+
+    h1 {
+      width: fit-content;
+      line-height: 56px;
+      font-size: 56px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calendar-options {
+      @include flex-styles();
+
+      button {
+        width: 100px;
+        height: 30px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: var(--pink-main);
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+      }
+
+      ul {
+        @include flex-styles();
+
+        li {
+          width: 40px;
+          height: 40px;
+          border-radius: 90px;
+          @include flex-styles();
+          justify-content: center;
+          margin-left: 10px;
+          cursor: pointer;
+
+          button {
+            width: 100%;
+            height: 100%;
+            border-radius: 90px;
+            background-color: var(--pink-main);
+          }
+
+          button:hover {
+            background-color: var(--pink-1);
+          }
+        }
+
+        li:last-child {
+          background-color: var(--blue-main);
+        }
+      }
+    }
+  }
+
+  .calendar-body {
+    .calendar-body-wrapper {
+      flex: 1;
+    }
+  }
+
+  .calendar-footer {
+    margin-top: 20px;
+
+    &-section {
+      width: 50%;
+
+      .calendar-footer-title {
+        border-bottom: 1px #121212 solid;
+        padding: 30px 10px 10px;
+
+        h4 {
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+
+      .calendar-footer-body {
+        .MuiInputBase-root.MuiInput-root::before {
+          border-bottom: unset;
+        }
+      }
+    }
+  }
+
+  &-nav-calendar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    width: fit-content;
+    height: fit-content;
+    transform: translateX(600px);
+    transition: all ease 0.5s;
+  }
+
+  .show-nav-calendar {
+    transform: translateX(0);
+  }
+}

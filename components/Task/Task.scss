@@ -1,0 +1,69 @@
+.task {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  gap: 4px;
+  color: var(--black-main);
+  border-bottom: 1px solid var(--gray-main);
+
+  &-text {
+    position: relative;
+    
+    width: 84%;
+    .text {
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 1;
+    }
+
+    .text-done {
+      text-decoration: line-through;
+      color: var(--gray-main);
+      transition: all ease .5s;
+    }
+
+    &-highlight {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 13px;
+      width: 100%;
+    }
+
+    .star-icon {
+      position: absolute;
+      left: -8px;
+      top: -8px;
+      z-index: 0;
+    }
+
+    .task-done {
+      opacity: 0;
+      height: 0;
+      width: 0;
+      overflow: hidden;
+      transition: all ease .5s;
+    }
+  }
+
+  .tick-icon {
+    display: none;
+  }
+}
+
+.task:hover {
+  .tick-icon {
+    display: block;
+  }
+}
+
+.task:hover {
+  border-bottom: #00B4D8 1px solid !important;
+  cursor: pointer;
+}
+

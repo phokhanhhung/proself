@@ -1,101 +1,230 @@
-import Image from "next/image";
+'use client'
+import { useEffect, useRef, useState } from 'react';
+import './Home.scss';
+import Image from 'next/image';
+import { MONTH, WEEK, MONTHS } from '../types/consts/calendar.const';
+import DailyInput from '../components/DailyInput/DailyInput';
+import { DailyTasks } from '@/types/interfaces/calendar.interface';
+import { Stack, TextField } from '@mui/material';
+import Calendar from '../components/Calendar/Calendar';
+import { todoTasksMockTest, todoTasksNextMockTest, todoTasksPrevMockTest } from '@/mocks/todo-mock-test';
+import TaskDetailDialog from '../components/TaskDetailDialog/TaskDetailDialog';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import CustomInput from '@/components/CustomInput/CustomInput';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [calendarType, setCalendarType] = useState(WEEK);
+  const [isCalendarClicked, setIsCalendarClicked] = useState(false);
+  const [weekTasks, setWeekTasks] = useState<Array<DailyTasks>>([]);
+  const [weekNum, setWeekNum] = useState(0);
+
+  const dialog = useSelector((state: RootState) => state.taskDetailDialog);
+
+  const isBrowser = typeof window !== 'undefined';
+  let firstDayOfWeek = new Date();
+  const nav = useRef<HTMLElement | null>(null);
+  const layerBackground = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const currentDay = new Date(2024, 10, 1);
+    const indexDayOfWeek = currentDay.getDay();
+    const indexDayOfMonth = currentDay.getDate();
+    const week: Array<Date> = [];
+
+    // Loop through 7 days of week - Monday to Sunday
+    for(let i = 1; i <= 7; i++) {
+      const indexOfDay = indexDayOfMonth - indexDayOfWeek + i;
+      const newDay = new Date(currentDay.getFullYear(), currentDay.getMonth(), indexOfDay);
+      week.push(newDay);
+    }
+
+    setWeekTasks(todoTasksMockTest);
+    firstDayOfWeek = new Date(todoTasksMockTest[0].date);
+
+    if(isBrowser) {
+      nav.current = document.getElementsByClassName('home-nav-calendar')[0] as HTMLElement;
+      layerBackground.current = document.getElementsByClassName('background-layer')[0] as HTMLElement;
+    }
+  }, [])
+
+  const onToggleCalendarType = () => {
+    if (calendarType === WEEK) {
+      setCalendarType(MONTH);
+      return;
+    }
+    setCalendarType(WEEK);
+  }
+
+  const handleShowCalendar = () => {
+    setIsCalendarClicked(true);
+    nav.current?.classList.add("show-nav-calendar");
+    layerBackground.current?.classList.add("show-calendar")
+  }
+
+  const handleClickBackgroundLayer = () => {
+    setIsCalendarClicked(false);
+    nav.current?.classList.remove("show-nav-calendar");
+    layerBackground.current?.classList.remove("show-calendar")
+  }
+
+  const onMoveToPrevMonth = () => {
+    if(weekNum === 0) {
+      setWeekTasks(todoTasksPrevMockTest);
+      setWeekNum(weekNum => weekNum - 1);
+    }
+    if(weekNum > 0 && weekNum <= 1) {
+      setWeekTasks(todoTasksMockTest);
+      setWeekNum(weekNum => weekNum - 1);
+    }
+  }
+
+  const onMoveToNextMonth = () => {
+    if(weekNum === 0) {
+      setWeekTasks(todoTasksNextMockTest);
+      setWeekNum(weekNum => weekNum + 1);
+    }
+    if(weekNum >= -1 && weekNum < 0) {
+      setWeekTasks(todoTasksMockTest);
+      setWeekNum(weekNum => weekNum + 1);
+    }
+  }
+
+  return (
+    <div className="home">
+      <div className="calendar-header">
+        <h1 onClick={() => handleShowCalendar()}>{MONTHS[firstDayOfWeek.getMonth()]} {firstDayOfWeek.getFullYear()}</h1>
+        <div className="calendar-options">
+          <button onClick={() => onToggleCalendarType()}>{calendarType}</button>
+          <ul>
+            <li onClick={() => onMoveToPrevMonth()}>
+              <button>
+                <Image 
+                  src="/assets/icons/arrow-left.png" 
+                  alt="arrow-left" 
+                  height={12} 
+                  width={7}
+                ></Image>
+              </button>
+            </li>
+            <li onClick={() => onMoveToNextMonth()}>
+              <button>
+                <Image 
+                  src="/assets/icons/arrow-right.png" 
+                  alt="arrow-right" 
+                  height={12} 
+                  width={7}
+                ></Image>
+              </button>
+            </li>
+            <li>
+            <Image 
+                src="/assets/icons/option.png" 
+                alt="option" 
+                height={18} 
+                width={4}
+              ></Image>
+            </li>
+          </ul>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </div>
+
+      <div className="calendar-body">
+        <Stack
+          className="calendar-body-wrapper"
+          direction="row"
+          spacing={2}
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          {weekTasks.map((task, index) => (
+            <DailyInput key={index} task={task} num={index}/>
+          ))}
+        </Stack>  
+      </div>
+
+      <div className="calendar-footer">
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+          }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <div className="calendar-footer-section">
+            <div className="calendar-footer-title">
+              <h4>Note</h4>
+            </div>
+            <Stack
+              className="calendar-footer-body"
+              direction="column"
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {Array.from({ length: 4 }, (_, i) => i + 1).map((_, i) => (
+                <TextField 
+                  disabled
+                  fullWidth 
+                  key={i} 
+                  id="standard-basic" 
+                  variant="standard" 
+                  style={{borderBottom: i%2===0 ? "1px solid #F5F5F7" : "1px solid #D2D2D7"}}
+                />
+              ))}
+            </Stack>
+          </div>
+          
+          <div className="calendar-footer-section">
+            <div className="calendar-footer-title">
+              <h4>Reflection</h4>
+            </div>
+
+            <Stack
+              className="calendar-footer-body"
+              direction="column"
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {Array.from({ length: 4 }, (_, i) => i + 1).map((_, i) => (
+                <TextField 
+                  disabled
+                  fullWidth 
+                  key={i} 
+                  id="standard-basic" 
+                  variant="standard" 
+                  style={{borderBottom: i%2===0 ? "1px solid #F5F5F7" : "1px solid #D2D2D7"}}
+                />
+              ))}
+            </Stack>
+          </div>
+        </Stack>  
+      </div>
+
+      <div className="home-nav-calendar">
+        <Calendar isShowedCalendar={isCalendarClicked}/>
+      </div>
+
+      <div className="background-layer" onClick={() => handleClickBackgroundLayer()}></div>
+
+      <div>
+        {dialog.isDialogOpened && <TaskDetailDialog 
+          isDialogOpened={dialog.isDialogOpened}
+          date={dialog.date}
+          task={dialog.task}
+        />}
+      </div>
+
+      <div style={{width: "100px"}}>
+        <CustomInput type='text' label='Name' onInputChange={() => true}/>
+      </div>
     </div>
   );
 }
