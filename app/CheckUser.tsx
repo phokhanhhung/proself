@@ -10,7 +10,7 @@ export default function UserChecker({
 }) {
   const {data: session} = useSession();
 
-  return session?.user ? (
+  return 1 ? (
     <React.Fragment>
       <Navbar />
       <div style={{marginLeft: "100px", width: "100%"}}>

@@ -25,6 +25,7 @@
       font-size: 18px;
       color: var(--white-main);
       font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
     }
   }
 
@@ -69,9 +70,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--pink-3);
+            background-color: var(--pink-main);
             bottom: 18%;
             right: 1%;
+            cursor: pointer;
           }
         }
       }
@@ -80,7 +82,7 @@
         padding: 0 30px;
 
         .profile-account-name {
-          margin-top: 30px;
+          margin-top: 25px;
 
           h2 {
             font-size: 30px;
@@ -114,6 +116,7 @@
         }
 
         button {
+          width: 166px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -124,7 +127,8 @@
           font-size: 18px;
           color: var(--white-main);
           font-family: 'Montserrat', sans-serif;
-          margin-bottom: 6px;
+          margin-bottom: 28px;
+          cursor: pointer;
         }
       }
     }
