@@ -1,0 +1,179 @@
+.profile {
+  padding: 0 180px;
+
+  &-background {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    height: 200px;
+    background-color: var(--pink-3);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 20px 30px;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 160px;
+      height: 56px;
+      padding: 0 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: var(--pink-main);
+      font-size: 18px;
+      color: var(--white-main);
+      font-family: 'Montserrat', sans-serif;
+    }
+  }
+
+  &-body {
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+
+    .profile-account {
+      width: 38%;
+      background-color: var(--blue-0);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+
+      &-image {
+        height: 140px;
+        position: relative;
+
+        .profile-account-avatar-wrapper {
+          position: absolute;
+          bottom: 0;
+          left: 8%;
+
+          .profile-account-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background-color: var(--white-main);
+          }
+
+          button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--pink-3);
+            bottom: 18%;
+            right: 1%;
+          }
+        }
+      }
+
+      &-info {
+        padding: 0 30px;
+
+        .profile-account-name {
+          margin-top: 30px;
+
+          h2 {
+            font-size: 30px;
+            font-weight: 600;
+          }
+
+          p {
+            font-size: 20px;
+          }
+        }
+
+        .profile-account-bio {
+          padding: 16px;
+          background-color: #F5F5F7;
+          border-radius: 8px;
+          margin-top: 25px;
+        }
+
+        .profile-account-others {
+          margin-top: 25px;
+
+          .profile-account-other-info {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+
+            p {
+              margin-left: 8px;
+            }
+          }
+        }
+
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 16px;
+          border-radius: 8px;
+          border: none;
+          background-color: var(--pink-main);
+          font-size: 18px;
+          color: var(--white-main);
+          font-family: 'Montserrat', sans-serif;
+          margin-bottom: 6px;
+        }
+      }
+    }
+
+    .profile-other-info {
+      width: 62%;
+      background-color: var(--gray-0);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+
+      &-header {
+        padding: 0 95px;
+
+        .profile-tabs {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 40px;
+
+          .profile-tab {
+            height: 100%;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+        }
+
+        .profile-tabs::after {
+          content: "";
+          width: 100px;
+          height: 2px;
+          background-color: var(--black-main);
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          transition: all ease .5s;
+        }
+
+        .profile-tabs.move-to-second-tab::after {
+          left: calc(50% - 50px);
+        } 
+
+        .profile-tabs.move-to-third-tab::after {
+          left: calc(100% - 100px);
+        } 
+      }
+    }
+  }
+}
